@@ -1,92 +1,91 @@
 VERSION 5.00
 Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "COMDLG32.OCX"
-Begin VB.Form Form1 
-   Caption         =   "Form1"
+Begin VB.Form frmTimbradoLayoutXML 
+   Caption         =   "Ejemplo de Timbrado Layout y XML"
    ClientHeight    =   4335
    ClientLeft      =   120
    ClientTop       =   450
-   ClientWidth     =   7650
+   ClientWidth     =   7830
    LinkTopic       =   "Form1"
    ScaleHeight     =   4335
-   ScaleWidth      =   7650
+   ScaleWidth      =   7830
    StartUpPosition =   2  'CenterScreen
    Begin MSComDlg.CommonDialog CommonDialog2 
-      Left            =   5760
-      Top             =   3720
+      Left            =   1800
+      Top             =   3840
       _ExtentX        =   847
       _ExtentY        =   847
       _Version        =   393216
-   End
-   Begin VB.CheckBox Check1 
-      Caption         =   "Timbrar xml de retenciones"
-      Height          =   195
-      Left            =   480
-      TabIndex        =   6
-      Top             =   960
-      Width           =   2415
-   End
-   Begin VB.CommandButton cmdTimbraXML 
-      Caption         =   "Timbrar XML"
-      Height          =   495
-      Left            =   480
-      TabIndex        =   5
-      Top             =   1320
-      Width           =   2175
-   End
-   Begin VB.CommandButton cmdExaminar2 
-      Caption         =   "Examinar"
-      Height          =   375
-      Left            =   5520
-      TabIndex        =   4
-      Top             =   480
-      Width           =   1695
-   End
-   Begin VB.TextBox txtxml 
-      Height          =   375
-      Left            =   480
-      TabIndex        =   3
-      Text            =   "---- Selecciona xml ----"
-      Top             =   480
-      Width           =   5055
-   End
-   Begin VB.CommandButton cmdExaminar 
-      Caption         =   "Examinar"
-      Height          =   375
-      Left            =   5520
-      TabIndex        =   2
-      Top             =   2640
-      Width           =   1695
    End
    Begin MSComDlg.CommonDialog CommonDialog1 
-      Left            =   6240
-      Top             =   3720
+      Left            =   840
+      Top             =   3840
       _ExtentX        =   847
       _ExtentY        =   847
       _Version        =   393216
-   End
-   Begin VB.TextBox txtfile 
-      Height          =   375
-      Left            =   480
-      TabIndex        =   1
-      Text            =   "---- Selecciona layout ----"
-      Top             =   2640
-      Width           =   5055
    End
    Begin VB.CommandButton cmdTimbrarLayout 
       Caption         =   "Timbrar Layout"
+      Height          =   615
+      Left            =   480
+      TabIndex        =   6
+      Top             =   3120
+      Width           =   7095
+   End
+   Begin VB.CommandButton cmdExaminarLayout 
+      Caption         =   "Examinar"
+      Height          =   495
+      Left            =   6120
+      TabIndex        =   5
+      Top             =   2400
+      Width           =   1455
+   End
+   Begin VB.TextBox txtfile 
+      Height          =   495
+      Left            =   480
+      TabIndex        =   4
+      Text            =   "--- Selecciona Layout ---"
+      Top             =   2400
+      Width           =   5655
+   End
+   Begin VB.CommandButton cmdTimbrarXML 
+      Caption         =   "Timbrar XML"
+      Height          =   615
+      Left            =   480
+      TabIndex        =   3
+      Top             =   1320
+      Width           =   7095
+   End
+   Begin VB.CheckBox Check1 
+      Caption         =   "Timbrar Xml de Retenciones"
+      Height          =   255
+      Left            =   480
+      TabIndex        =   2
+      Top             =   240
+      Width           =   2415
+   End
+   Begin VB.CommandButton cmdExaminarXML 
+      Caption         =   "Examinar"
+      Height          =   495
+      Left            =   6120
+      TabIndex        =   1
+      Top             =   600
+      Width           =   1455
+   End
+   Begin VB.TextBox txtxml 
       Height          =   495
       Left            =   480
       TabIndex        =   0
-      Top             =   3240
-      Width           =   2175
+      Text            =   "--- Selecciona XML ---"
+      Top             =   600
+      Width           =   5655
    End
 End
-Attribute VB_Name = "Form1"
+Attribute VB_Name = "frmTimbradoLayoutXML"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-'
 ' Referencias:
 ' 1.- Windows Script Host Object Models
 ' 2.- CFD (Dll creada por facturación moderna)
@@ -99,31 +98,30 @@ Attribute VB_Exposed = False
 
 Dim fso As New FileSystemObject
 
-Private Sub cmdExaminar_Click()
-    CommonDialog1.Filter = "Files TXT (*.txt)|*.txt|Files INI (*.ini)|*.ini"
-    CommonDialog1.DefaultExt = "txt"
-    CommonDialog1.DialogTitle = "Selecciona archivo"
-    CommonDialog1.ShowOpen
-    fname = CommonDialog1.FileName
+Private Sub cmdExaminarLayout_Click()
+    CommonDialog2.Filter = "Files TXT (*.txt)|*.txt|Files INI (*.ini)|*.ini"
+    CommonDialog2.DefaultExt = "txt"
+    CommonDialog2.DialogTitle = "Selecciona archivo"
+    CommonDialog2.ShowOpen
+    fname = CommonDialog2.FileName
     If fname = "" Then
         fname = "---- Selecciona layout ----"
     End If
     txtfile.Text = fname
 End Sub
 
-Private Sub cmdExaminar2_Click()
-    CommonDialog2.Filter = "Files XML (*.xml)|*.xml"
-    CommonDialog2.DefaultExt = "xml"
-    CommonDialog2.DialogTitle = "Selecciona archivo"
-    CommonDialog2.ShowOpen
-    fname = CommonDialog2.FileName
+Private Sub cmdExaminarXML_Click()
+    CommonDialog1.Filter = "Files XML (*.xml)|*.xml"
+    CommonDialog1.DefaultExt = "xml"
+    CommonDialog1.DialogTitle = "Selecciona archivo"
+    CommonDialog1.ShowOpen
+    fname = CommonDialog1.FileName
     If fname = "" Then
         fname = "---- Selecciona xml ----"
     End If
     txtxml.Text = fname
 End Sub
 
-' Timbrar archivo layout
 Private Sub cmdTimbrarLayout_Click()
     Dim Path As String
     Dim obj_op As New opciones
@@ -197,11 +195,9 @@ Private Sub cmdTimbrarLayout_Click()
     End If
 
     Screen.MousePointer = vbNormal
-
 End Sub
 
-' Timbrar archivo xml
-Private Sub cmdTimbraXML_Click()
+Private Sub cmdTimbrarXML_Click()
     Path = App.Path
     Dim keyfile As String
     keyfile = Path + "\..\utilerias\certificados\20001000000200000278.key"
@@ -335,11 +331,4 @@ Private Sub cmdTimbraXML_Click()
     End If
     
     Screen.MousePointer = vbNormal
-
 End Sub
-
-Function getPath(sPath As String, Caracter As String) As String
-    If sPath <> "" And Caracter <> "" Then
-       getPath = Left(sPath, InStrRev(sPath, Caracter))
-    End If
-End Function
